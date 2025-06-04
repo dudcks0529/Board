@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="bbsMapper">
+	<update id="updateBoard" parameterType="bbs.BoardDTO">
+	update free_board set title=#{title}, content=#{content} where seq=#{seq}
+	</update>
+	
+	<delete id="deleteBoard" parameterType="Integer">
+	delete from free_board where seq = #{seq}
+	</delete>
+	
+	<select id="getBoard" resultType="bbs.BoardDTO" parameterType="Integer">
+	select seq, id "writer", title, content, to_char(write_date, 'YYYY/MM/DD') "write_date"
+	from free_board where seq = #{no}
+	</select>
+	
+	<select id="getTotalCount" resultType="Integer">
+	select count(*) from free_board
+	</select>
+	
+	<select id="getBoardList" resultType="bbs.BoardDTO" parameterType="notice.FromTo">
+	select seq, id "writer", title, w_date "write_date"
+	from(select rownum rn, a.*
+		from(select seq,id,title,to_char(write_date,'YYYY/MM/DD') "W_DATE"
+			from free_board order by seq desc) a)
+		where rn > #{start} and rn <![CDATA[<]]> #{end}
+	</select>
+
+    <select id="getMaxSeq" resultType="Integer">
+       select max(seq) from free_board
+    </select>
+    
+    <insert id="putBBS" parameterType="bbs.BoardDTO">
+       insert into free_board(seq,id,title,content,write_date)
+       values(#{seq},#{writer},#{title},#{content},sysdate)
+    </insert>
+</mapper>

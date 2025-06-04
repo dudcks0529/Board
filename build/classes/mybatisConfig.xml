@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE configuration PUBLIC "-//mybatis.org//DTD Config 3.0//EX"
+"http://mybatis.org/dtd/mybatis-3-config.dtd">
+<configuration>
+	<environments default="oracleXe">
+		<environment id="oracleXe">
+			<transactionManager type="JDBC"></transactionManager>
+			<dataSource type="POOLED">
+				<property name="username" value="ID"/>
+				<property name="password" value="PWD"/>
+				<property name="driver" value="oracle.jdbc.driver.OracleDriver"/>
+				<property name="url" value="jdbc:oracle:thin:@localhost:1521:XE"/>
+			</dataSource>
+		</environment>	
+	</environments>
+	<mappers>
+		<mapper resource="mapper/noticeMapper.xml"/>
+		<mapper resource="mapper/imageMapper.xml"/>
+		<mapper resource="mapper/itemsMapper.xml"/>
+		<mapper resource="mapper/cartMapper.xml"/>
+		<mapper resource="mapper/bbsMapper.xml"/>
+	</mappers>
+</configuration>

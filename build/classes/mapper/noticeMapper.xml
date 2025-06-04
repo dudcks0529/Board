@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="noticeMapper">
+	<insert id="putUser" parameterType="user.UserInfo">
+		insert into user_info values(#{user_id},
+		#{user_pwd},#{name},#{addr},#{phone},#{gender},
+		#{grade},#{email},to_date(#{birth},'YY/MM/DD'),#{job})
+	</insert>
+	<select id="getId" parameterType="String" resultType="String">
+		select user_id from user_info where user_id = #{id}
+	</select>
+	<select id="getUserIdByLogin" parameterType="login.LoginDTO" resultType="String">
+		select user_id from user_info where user_id = #{id} and user_pwd = #{password}
+	</select>
+	<select id="getNoticeCount" resultType="Integer">
+		select count(*) from notice_tbl
+	</select>
+	<select id="getNoticeList" parameterType="notice.FromTo" resultType="notice.NoticeDTO">
+		select num, title, writer, w_date "notice_date"
+		from(select rownum rank, a.*
+			from (select num, title, writer, to_char(write_date, 'YYYY/MM/DD HH24:MI:SS') w_date  
+				from notice_tbl order by num desc) a)
+			where rank > #{start} and rank <![CDATA[<]]> #{end}
+	</select>
+	<select id="getMaxNotice" resultType="Integer">
+		select max(num) from notice_tbl
+	</select>
+	<insert id="putNotice" parameterType="notice.NoticeDTO">
+		insert into notice_tbl values(#{num},#{title},#{content},sysdate,#{writer})
+	</insert>
+	<update id="updateMapper" parameterType="notice.NoticeDTO">
+		update notice_tbl set title=#{title}, content=#{content} where num=#{num}
+	</update>
+	<delete id="deleteNotice" parameterType="Integer">
+		delete from notice_tbl where num = #{num}
+	</delete>
+</mapper>
