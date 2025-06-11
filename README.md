@@ -15,7 +15,7 @@ Servlet과 JSP를 활용해 게시글 작성, 조회, 수정, 삭제 기능을 �
 
 ## 🛠 기술 스택
 
-- **Backend** : Java (Servlet)
+- **Backend** : Java 8 (Servlet)
 - **Frontend** : JSP, HTML/CSS, JavaScript
 - **Database** : Oracle 11g
 - **개발 도구** : Eclipse IDE, Apache Tomcat v9.0
